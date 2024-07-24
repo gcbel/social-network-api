@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 
-const todoSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  lastAccessed: { type: Date, default: Date.now },
+const thoughtSchema = new mongoose.Schema({
+  text: { type: String, required: true },
+  date: { type: Date, default: Date.now },
+  reactions: [],
+  reactionCount: 0,
 });
 
-const todo = mongoose.model("", todoSchema);
+const thought = mongoose.model("", userSchema);
 
 const handleError = (err) => console.error(err);
 
@@ -20,4 +22,4 @@ const handleError = (err) => console.error(err);
 //     }
 //   });
 
-module.exports = Genre;
+module.exports = thought;
