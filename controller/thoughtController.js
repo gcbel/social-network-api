@@ -1,9 +1,9 @@
 /* DEPENDENCIES */
-const Thought = require("../models/thought");
+const Thought = require("../models/Thought");
 
 /* ROUTES */
 /* Get route, find all thoughts */
-app.get("/thoughts", async (req, res) => {
+async function getThoughts(req, res) {
   try {
     const thoughts = await thought.find({});
     res.status(200).json(thoughts);
@@ -11,10 +11,10 @@ app.get("/thoughts", async (req, res) => {
     console.error(err);
     res.status(500).json({ message: "Error" });
   }
-});
+}
 
 /* Get route, find one thought */
-app.get("/thoughts/:id", async (req, res) => {
+async function getOneThought(req, res) {
   try {
     const thought = await thought.findOne({ _id: Object(req.params.id) });
     if (!thought) {
@@ -26,10 +26,10 @@ app.get("/thoughts/:id", async (req, res) => {
     console.error(err);
     res.status(500).json({ message: "Error" });
   }
-});
+}
 
 /* Post route, create a thought */
-app.post("/thoughts", async (req, res) => {
+async function createThought(req, res) {
   try {
     const newThought = new Thought({ content: req.body.content });
     if (!newThought) {
@@ -41,7 +41,7 @@ app.post("/thoughts", async (req, res) => {
     console.error(err);
     res.status(500).json({ message: "Error" });
   }
-});
+}
 
 /* EXPORT */
-module.exports = {};
+module.exports = { getThoughts, getOneThought, createThought };

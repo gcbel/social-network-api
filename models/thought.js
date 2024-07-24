@@ -1,12 +1,12 @@
 const { Schema, model } = require("mongoose");
 
-const thoughtSchema = new mongoose.Schema({
+const thoughtSchema = new Schema({
   text: { type: String, required: true },
   date: { type: Date, default: Date.now },
   reactions: { type: Schema.Types.ObjectId, ref: "reaction" },
   reactionCount: { type: Number, default: 0 },
 });
 
-// const thought = mongoose.model("", userSchema);
+const Thought = model("thought", thoughtSchema);
 
-module.exports = thought;
+module.exports = Thought;

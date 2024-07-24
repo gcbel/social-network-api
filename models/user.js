@@ -10,7 +10,7 @@ const userSchema = new Schema({
   thoughts: [{ type: Schema.Types.ObjectId, ref: "thought" }],
 });
 
-const user = model("user", userSchema);
+const User = model("user", userSchema);
 
 /* EXPORTS */
-module.exports = user;
+module.exports = User;
