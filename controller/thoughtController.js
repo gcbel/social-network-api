@@ -1,11 +1,11 @@
 /* DEPENDENCIES */
-const Thought = require("../models/Thought");
+const { User, Thought, Reaction } = require("../models");
 
 /* ROUTES */
 /* Get route, find all thoughts */
 async function getThoughts(req, res) {
   try {
-    const thoughts = await thought.find({});
+    const thoughts = await Thought.find({});
     res.status(200).json(thoughts);
   } catch (err) {
     console.error(err);
@@ -16,7 +16,7 @@ async function getThoughts(req, res) {
 /* Get route, find one thought */
 async function getOneThought(req, res) {
   try {
-    const thought = await thought.findOne({ _id: Object(req.params.id) });
+    const thought = await Thought.findOne({ _id: Object(req.params.id) });
     if (!thought) {
       res.status(400).json({ message: "No such thought" });
     } else {
@@ -31,11 +31,11 @@ async function getOneThought(req, res) {
 /* Post route, create a thought */
 async function createThought(req, res) {
   try {
-    const newThought = new Thought({ content: req.body.content });
+    const newThought = await Thought.create(req.body);
     if (!newThought) {
       res.status(400).json({ message: "Issue creating new thought" });
     } else {
-      res.status(200).json(newthought);
+      res.status(200).json(newThought);
     }
   } catch (err) {
     console.error(err);

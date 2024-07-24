@@ -1,5 +1,5 @@
 /* DEPENDENCIES */
-const User = require("../models/User");
+const { User, Thought, Reaction } = require("../models");
 
 /* ROUTES */
 /* Get route to /api/users, find all users */
