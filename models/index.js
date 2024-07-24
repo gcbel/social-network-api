@@ -1,5 +1,6 @@
 /* DEPENDENCIES */
-const todo = require("./");
+const User = require("./User");
+const Thought = require("./Thought");
 
 /* EXPORTS */
-module.exports = { todo };
+module.exports = { User, Thought };

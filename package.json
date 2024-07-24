@@ -1,0 +1,16 @@
+{
+  "name": "social-network-api",
+  "version": "1.0.0",
+  "description": "Backend API for social network",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^8.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
