@@ -1,26 +1,16 @@
-const mongoose = require("mongoose");
+/* DEPENDENCIES */
+const { Schema, model } = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+/* SCHEMA */
+const userSchema = new Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
-  friendCount: 0,
-  friends: [],
-  thoughts: [],
+  friendCount: { type: Number, default: 0 },
+  friends: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  thoughts: [{ type: Schema.Types.ObjectId, ref: "thought" }],
 });
 
-const user = mongoose.model("", userSchema);
+const user = model("user", userSchema);
 
-const handleError = (err) => console.error(err);
-
-// Will add data only if collection is empty to prevent duplicates
-// More than one document can have the same name value
-// todo.find({})
-//   .exec()
-//   .then((collection) => {
-//     if (collection.length === 0) {
-//       todo.insertMany([
-//       ]).catch((err) => handleError(err));
-//     }
-//   });
-
+/* EXPORTS */
 module.exports = user;

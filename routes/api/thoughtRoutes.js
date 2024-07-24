@@ -1,6 +1,6 @@
 /* DEPENDENCIES */
 const router = require("express").Router();
-const {} = require("../../controller/thoughtController");
+// const {} = require("../../controller/thoughtController");
 
 /* ROUTES */
 /* Get route, find all thoughts */
