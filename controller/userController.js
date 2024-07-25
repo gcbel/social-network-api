@@ -49,13 +49,14 @@ async function createUser(req, res) {
 async function updateUser(req, res) {
   try {
     const user = await User.findOneAndUpdate(
-      { _id: req.params.applicationId },
+      { _id: req.params.id },
       { $set: req.body },
       { runValidators: true, new: true }
     );
     if (!user) {
       return res.status(404).json({ message: "No such user" });
     } else {
+      await newUser.save();
       res.status(200).json(newUser);
     }
   } catch (err) {
@@ -67,7 +68,7 @@ async function updateUser(req, res) {
 /* Delete route to /api/users/:id, detele a user by ID */
 async function deleteUser(req, res) {
   try {
-    const user = await User.findOneAndDelete({ _id: req.params.userId });
+    const user = await User.findOneAndDelete({ _id: req.params.id });
     if (!user) {
       return res.status(404).json({ message: "No such user" });
     }
