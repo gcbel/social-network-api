@@ -24,24 +24,28 @@ async function createReaction(req, res) {
 }
 
 /* Post route to /api/thoughts/:thoughtId/reactions/:reactionId, delete a reaction */
-// async function deleteReaction(req, res) {
-//   try {
-//     const thought = await User.findOne({ _id: Object(req.params.thoughtId) });
+async function deleteReaction(req, res) {
+  try {
+    const thought = await Thought.findOne({
+      _id: Object(req.params.thoughtId),
+    });
 
-//     if (!user || !friend) {
-//       res.status(404).json({ message: "No such user" });
-//     } else {
-//       if (user.friends.includes(friendId)) {
-//         user.friends = user.friends.filter((id) => !id.equals(friendId));
-//         await user.save();
-//       }
-//       res.status(200).json(user);
-//     }
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Error removing friend", error: err });
-//   }
-// }
+    if (!thought) {
+      res.status(404).json({ message: "No such thought" });
+    } else {
+      if (thought.reactions.includes(reactionId)) {
+        thought.reactions = thought.reactions.filter(
+          (id) => !id.equals(reactionId)
+        );
+        await thought.save();
+      }
+      res.status(200).json(thought);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error removing reaction", error: err });
+  }
+}
 
 /* EXPORT */
 module.exports = { createReaction, deleteReaction };
