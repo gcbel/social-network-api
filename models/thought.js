@@ -1,11 +1,11 @@
 /* DEPENDENCIES */
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 
 /* SCHEMA */
 const reactionSchema = new Schema(
   {
     reactionId: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       default: () => new Types.ObjectId(),
     },
     reactionBody: { type: String, required: true, maxLength: 280 },
@@ -19,6 +19,10 @@ const reactionSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      transform: function (doc, ret) {
+        delete ret.id; // Remove `id` fields from output
+        delete ret._id;
+      },
     },
   }
 );
@@ -37,6 +41,9 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      transform: function (doc, ret) {
+        delete ret.id; // Remove `id` field from output
+      },
     },
   }
 );
@@ -45,7 +52,7 @@ thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
 
-const Thought = model("thought", thoughtSchema);
+const Thought = model("Thought", thoughtSchema);
 
 /* EXPORTS */
 module.exports = Thought;

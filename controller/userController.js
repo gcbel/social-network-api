@@ -5,11 +5,11 @@ const { User, Thought } = require("../models");
 /* Get route to /api/users, find all users */
 async function getUsers(req, res) {
   try {
-    const users = await User.find({}).populate("thoughts").populate("friends");
+    const users = await User.find();
     res.status(200).json(users);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error getting all users", error: err });
+    res.status(500).json({ message: "Error getting all users" });
   }
 }
 
@@ -26,7 +26,7 @@ async function getOneUser(req, res) {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error getting user by ID", error: err });
+    res.status(500).json({ message: "Error getting user by ID" });
   }
 }
 
@@ -41,7 +41,7 @@ async function createUser(req, res) {
     res.status(200).json(newUser);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error creating new user", error: err });
+    res.status(500).json({ message: "Error creating new user" });
   }
 }
 
@@ -56,16 +56,16 @@ async function updateUser(req, res) {
     if (!user) {
       return res.status(404).json({ message: "No such user" });
     } else {
-      await newUser.save();
-      res.status(200).json(newUser);
+      await user.save();
+      res.status(200).json(user);
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error creating new user", error: err });
+    res.status(500).json({ message: "Error creating new user" });
   }
 }
 
-/* Delete route to /api/users/:id, detele a user by ID */
+/* Delete route to /api/users/:id, delete a user by ID */
 async function deleteUser(req, res) {
   try {
     const user = await User.findOneAndDelete({ _id: req.params.id });
@@ -78,7 +78,7 @@ async function deleteUser(req, res) {
     });
   } catch (err) {
     rconsole.error(err);
-    res.status(500).json({ message: "Error deleting user", error: err });
+    res.status(500).json({ message: "Error deleting user" });
   }
 }
 

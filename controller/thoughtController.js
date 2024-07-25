@@ -1,5 +1,5 @@
 /* DEPENDENCIES */
-const { User, Thought, Reaction } = require("../models");
+const { User, Thought } = require("../models");
 
 /* ROUTES */
 /* Get route, find all thoughts */
@@ -9,7 +9,7 @@ async function getThoughts(req, res) {
     res.status(200).json(thoughts);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error" });
+    res.status(500).json({ message: "Error getting thoughts" });
   }
 }
 
@@ -24,27 +24,75 @@ async function getOneThought(req, res) {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error" });
+    res.status(500).json({ message: "Error getting thought by ID" });
   }
 }
 
 /* Post route, create a thought */
 async function createThought(req, res) {
   try {
+    const user = await User.findOne({ _id: Object(req.body.userId) });
+    if (!user) {
+      return res.status(404).json({ message: "No such user" });
+    }
     const newThought = new Thought({
-      text: req.body.text,
+      thoughtText: req.body.thoughtText,
+      username: req.body.username,
     });
     if (!newThought) {
-      res.status(400).json({ message: "Issue creating new thought" });
+      return res.status(400).json({ message: "Issue creating new thought" });
+    }
+    newThought.save();
+    user.save();
+    user.thoughts.push(newThought._id);
+    res.status(200).json({ user: user, thought: newThought });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error creating thought" });
+  }
+}
+
+/* Put route to /api/thoughts/:id, update a thought by ID */
+async function updateThought(req, res) {
+  try {
+    const thought = await Thought.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: req.body },
+      { runValidators: true, new: true }
+    );
+    if (!thought) {
+      return res.status(404).json({ message: "No such thought" });
     } else {
-      newThought.save();
-      res.status(200).json(newThought);
+      await thought.save();
+      res.status(200).json(thought);
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error" });
+    res.status(500).json({ message: "Error creating new user" });
+  }
+}
+
+/* Delete route to /api/thoughts/:id, delete a thought by ID */
+async function deleteThought(req, res) {
+  try {
+    const thought = await Thought.findOneAndDelete({ _id: req.params.id });
+    if (!thought) {
+      return res.status(404).json({ message: "No such thought" });
+    }
+    res.status(200).json({
+      message: "Thought has been deleted!",
+    });
+  } catch (err) {
+    rconsole.error(err);
+    res.status(500).json({ message: "Error deleting user" });
   }
 }
 
 /* EXPORT */
-module.exports = { getThoughts, getOneThought, createThought };
+module.exports = {
+  getThoughts,
+  getOneThought,
+  createThought,
+  updateThought,
+  deleteThought,
+};

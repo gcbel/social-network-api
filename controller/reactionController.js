@@ -19,7 +19,7 @@ async function createReaction(req, res) {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error adding friend", error: err });
+    res.status(500).json({ message: "Error adding reaction" });
   }
 }
 
@@ -29,21 +29,21 @@ async function deleteReaction(req, res) {
     const thought = await Thought.findOne({
       _id: Object(req.params.thoughtId),
     });
-
     if (!thought) {
-      res.status(404).json({ message: "No such thought" });
-    } else {
-      if (thought.reactions.includes(reactionId)) {
-        thought.reactions = thought.reactions.filter(
-          (id) => !id.equals(reactionId)
-        );
-        await thought.save();
-      }
-      res.status(200).json(thought);
+      return res.status(404).json({ message: "No such thought" });
     }
+    const reaction = thought.reactions.findIndex(
+      (reaction) => reaction.reactionId.toString() === req.params.reactionId
+    );
+    if (reaction === -1) {
+      return res.status(404).json({ message: "No such reaction" });
+    }
+    thought.reactions.splice(reaction, 1);
+    await thought.save();
+    res.status(200).json(thought);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error removing reaction", error: err });
+    res.status(500).json({ message: "Error removing reaction" });
   }
 }
 
