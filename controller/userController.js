@@ -35,10 +35,10 @@ async function createUser(req, res) {
       username: req.body.username,
       email: req.body.email,
     });
-    newUser.save();
-    if (!newuser) {
+    if (!newUser) {
       res.status(400).json({ message: "Issue creating new user" });
     } else {
+      newUser.save();
       res.status(200).json(newUser);
     }
   } catch (err) {

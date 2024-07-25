@@ -31,10 +31,13 @@ async function getOneThought(req, res) {
 /* Post route, create a thought */
 async function createThought(req, res) {
   try {
-    const newThought = await Thought.create(req.body);
+    const newThought = new Thought({
+      text: req.body.text,
+    });
     if (!newThought) {
       res.status(400).json({ message: "Issue creating new thought" });
     } else {
+      newThought.save();
       res.status(200).json(newThought);
     }
   } catch (err) {
