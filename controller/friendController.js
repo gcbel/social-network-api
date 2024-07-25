@@ -2,7 +2,7 @@
 const { User } = require("../models");
 
 /* ROUTES */
-/* Put route to /api/users/:userId/friends/:friendId, add friend */
+/* Post route to /api/users/:userId/friends/:friendId, add friend */
 async function addFriend(req, res) {
   try {
     const user = await User.findOne({ _id: Object(req.params.userId) });
@@ -22,6 +22,7 @@ async function addFriend(req, res) {
   }
 }
 
+/* Delete route to /api/users/:userId/friends/:friendId, removes friend */
 async function deleteFriend(req, res) {
   try {
     const user = await User.findOne({ _id: Object(req.params.userId) });
