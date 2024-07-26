@@ -68,11 +68,15 @@ async function updateUser(req, res) {
 /* Delete route to /api/users/:id, delete a user by ID */
 async function deleteUser(req, res) {
   try {
-    const user = await User.findOneAndDelete({ _id: req.params.id });
+    // Get user and delete their thoughts
+    const user = await User.findOne({ _id: Object(req.params.id) });
     if (!user) {
       return res.status(404).json({ message: "No such user" });
     }
-    await Thought.deleteMany({ _id: { $in: User.thoughts } });
+    await Thought.deleteMany({ _id: { $in: user.thoughts } });
+
+    // Delete user
+    const deletedUser = await User.findOneAndDelete({ _id: req.params.id });
     res.status(200).json({
       message: "User and their thoughts have been deleted!",
     });
