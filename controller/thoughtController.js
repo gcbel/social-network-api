@@ -75,10 +75,18 @@ async function updateThought(req, res) {
 /* Delete route to /api/thoughts/:id, delete a thought by ID */
 async function deleteThought(req, res) {
   try {
+    // Delete thought
     const thought = await Thought.findOneAndDelete({ _id: req.params.id });
     if (!thought) {
       return res.status(404).json({ message: "No such thought" });
     }
+
+    // Delete thought from user's thought list
+    await User.updateOne(
+      { thoughts: req.params.id },
+      { $pull: { thoughts: req.params.id } }
+    );
+
     res.status(200).json({
       message: "Thought has been deleted!",
     });
