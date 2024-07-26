@@ -4,7 +4,7 @@
 
 This project is the back-end for a social netwroking platform, which allows ways of creating, updating, and deleting users and thoughts, as well as allowing users to interact with eachother as friends and react to other's posts. This project is created using Express.js, Mongoose, and MongoDB.
 
-[Here]() is a video demonstrating the functionality of the application.
+[Here](https://drive.google.com/file/d/1VFsQVC1SFJZe-Etio1S9o1tbtuN6nNCS/view?usp=drive_link) is a video demonstrating the functionality of the application.
 
 ## Installation
 
